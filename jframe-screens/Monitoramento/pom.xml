@@ -63,7 +63,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.mycompany.monitoramento.Monitoramento</mainClass> 
+                            <mainClass>com.mycompany.monitoramento.LoginCli</mainClass> 
                         </manifest>
                     </archive>
                 </configuration>
