@@ -37,8 +37,14 @@ public class LoginCli {
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(
                     "select emailUsuario, senha from Usuario where emailUsuario='" + email + "' and senha ='" + senha + "'");
+            
+             Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/NoCrash?allowPublicKeyRetrieval=true&useSSL=false","root","urubu100");
+            Statement stmMysql = conMysql.createStatement();
+            ResultSet rsMysql = stmMysql.executeQuery(
+                    "select emailUsuario, senha from Usuario where emailUsuario='" + email + "' and senha ='" + senha + "'");
 
-            if (rs.next()) {
+            if (rs.next() || rsMysql.next()) {
                 System.out.println("Bem vindo! " + email);
                  System.out.println("\nDigite seu token: ");
                  String token = scanner.next();
@@ -48,7 +54,7 @@ public class LoginCli {
 
             if (rsToken.next()) {
                
-                MostrarDado page = new MostrarDado();
+             
                
                 String sqlInsert = "";
                 StringBuilder sb = new StringBuilder();
