@@ -39,7 +39,7 @@ public class LoginCli {
                     "select emailUsuario, senha from Usuario where emailUsuario='" + email + "' and senha ='" + senha + "'");
             
              Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/NoCrash?allowPublicKeyRetrieval=true&useSSL=false","root","urubu100");
+            Connection conMysql = DriverManager.getConnection("jdbc:mysql://localhost:3306/NoCrash?allowPublicKeyRetrieval=true&useSSL=false","root","Vss180804_");
             Statement stmMysql = conMysql.createStatement();
             ResultSet rsMysql = stmMysql.executeQuery(
                     "select emailUsuario, senha from Usuario where emailUsuario='" + email + "' and senha ='" + senha + "'");
