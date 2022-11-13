@@ -23,7 +23,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.mycompany.monitoramento.LoginCli</mainClass> 
+                            <mainClass>com.mycompany.monitoramento.Login</mainClass> 
                         </manifest>
                     </archive>
                 </configuration>
