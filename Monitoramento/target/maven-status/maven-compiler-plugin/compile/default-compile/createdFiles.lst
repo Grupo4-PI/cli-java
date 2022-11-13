@@ -1,0 +1,6 @@
+com\mycompany\monitoramento\Login.class
+com\mycompany\monitoramento\DatabaseMySql.class
+com\mycompany\monitoramento\DbHardware.class
+com\mycompany\monitoramento\DdDado.class
+com\mycompany\monitoramento\SqlCommands.class
+com\mycompany\monitoramento\DbDisco.class
