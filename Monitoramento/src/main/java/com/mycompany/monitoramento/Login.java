@@ -3,6 +3,7 @@ package com.mycompany.monitoramento;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -33,67 +34,76 @@ public class Login {
 
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                Connection con = DriverManager.getConnection(
+                try (Connection con = DriverManager.getConnection(
                         "jdbc:sqlserver://nocrash.database.windows.net:1433;database=nocrash;"
-                        + "encrypt=true;trustServerCertificate=false", "nocrash", "#Gfgrupo4");
-
-                Statement stm = con.createStatement();
-                ResultSet rs = stm.executeQuery(sql.selectEmailSenha(email, senha));
-
-                if (rs.next()) {
-                    System.out.println("\n| Bem vindo ao NoCrash |");
-                    System.out.println("\nDigite o token da sua desktop: ");
-                    String token = scanner.next();
-                    ResultSet rsToken = stm.executeQuery(sql.selectDesktop(token));
-
-                    if (rsToken.next()) {
-                        ResultSet verificarHardware = stm.executeQuery(sql.selectHardware(token));
-
-                        if (!verificarHardware.next()) {
-                            stm.execute(sql.insertHardware(token));
-                        } else {
-                            stm.execute(sql.updateHardware(token));
-                        }
-                        System.out.println("\nTudo certo! vamos capturar os dados da sua desktop agora...\n\n");
-                        System.out.println("OBS: vai voltar para o começo porque a inserção dos dados ainda"
-                                + " não está automatizada mas os selects/inserts na azure estão indo\n");
-
-                        stm.execute(sql.insertDados());
-
-                        DdDado dado = new DdDado();
+                                + "encrypt=true;trustServerCertificate=false", "nocrash", "#Gfgrupo4")) {
+                    Statement stm = con.createStatement();
+                    ResultSet rs = stm.executeQuery(sql.selectEmailSenha(email, senha));
+                    
+                    if (rs.next()) {
+                        System.out.println("\n| Bem vindo ao NoCrash |");
+                        System.out.println("\nDigite o token da sua desktop: ");
+                        String token = scanner.next();
+                        ResultSet rsToken = stm.executeQuery(sql.selectDesktop(token));
                         
-                        try {
-                            for (int i = 0; i < dado.getQtdDisco(); i++) {
-                                stm.execute(sql.insertDisco(i));
+                        if (rsToken.next()) {
+                            ResultSet verificarHardware = stm.executeQuery(sql.selectHardware(token));
+                            
+                            if (!verificarHardware.next()) {
+                                stm.execute(sql.insertHardware(token));
+                            } else {
+                                stm.execute(sql.updateHardware(token));
                             }
-                        } catch (Exception ex) {
-                            for (int i = 0; i < dado.getQtdDisco(); i++) {
-                                stm.execute(sql.updateDisco(i));
+                            System.out.println("\nTudo certo! vamos capturar os dados da sua desktop agora...\n\n");
+                            System.out.println("OBS: vai voltar para o começo porque a inserção dos dados ainda"
+                                    + " não está automatizada, mas os selects/inserts estão indo\n");
+                            
+                            stm.execute(sql.insertDados());
+                            
+                            DdDado dado = new DdDado();
+                            
+                            try {
+                                for (int i = 0; i < dado.getQtdDisco(); i++) {
+                                    stm.execute(sql.insertDisco(i));
+                                }
+                            } catch (SQLException ex) {
+                                for (int i = 0; i < dado.getQtdDisco(); i++) {
+                                    stm.execute(sql.updateDisco(i));
+                                }
                             }
+                            
+                            try {
+                                DatabaseMySql db = new DatabaseMySql();
+                                try {
+                                    db.insertHardware(token);
+                                } catch (Exception ex) {
+                                    db.updateHardware(token);
+                                }
+                                db.inserirDados();
+                                try {
+                                    for (int i = 0; i < dado.getQtdDisco(); i++) {
+                                        db.inserirDisco(i);
+                                    }
+                                } catch (Exception ex) {
+                                    for (int i = 0; i < dado.getQtdDisco(); i++) {
+                                        db.updateDisco(i);
+                                    }
+                                }
+                            } catch (SQLException e) {
+                                System.out.println("\n| Erro ao conectar com o MySql |\n");
+                            }
+                        } else {
+                            System.out.println("\nToken inválido!\n");
                         }
-
-//                        try {
-//                            DatabaseMySql db = new DatabaseMySql();
-//                            db.inserirDados();
-//                            for (int i = 0; i < dado.getQtdDisco(); i++) {
-//                                db.inserirDiscos(i);
-//                            }
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
                     } else {
-                        System.out.println("\nToken inválido!\n");
+                        System.out.println("\nNome ou senha incorretos!\n");
                     }
-                } else {
-                    System.out.println("\nNome ou senha incorretos!\n");
                 }
-                con.close();
-            } catch (Exception e) {
+            } catch (ClassNotFoundException | SQLException e) {
                 if (email.isEmpty() || senha.isEmpty()) {
                     System.out.println("\nPreencha todos os campos!");
                 } else {
                     System.out.println("\n| Ocorreu algum erro por aqui! |\n");
-                    e.printStackTrace();
                 }
             }
         }
