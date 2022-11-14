@@ -14,7 +14,7 @@ public class DatabaseMySql {
         dataSourceSql.setDriverClassName(
                 "com.mysql.cj.jdbc.Driver");
         dataSourceSql.setUrl(
-                "jdbc:mysql://nocrash:3306/nocrash");
+                "jdbc:mysql://172.17.0.3:3306/nocrash");
         dataSourceSql.setUsername("root");
         dataSourceSql.setPassword("urubu100");
     }

@@ -58,6 +58,10 @@ public class Login {
                             System.out.println("OBS: vai voltar para o começo porque a inserção dos dados ainda"
                                     + " não está automatizada, mas os selects/inserts estão indo\n");
                             
+                            System.out.println("\nCaso ocorra a exception PoolableConnectionFactory, veja o ip"
+                                    + " do container que está o seu CLI e mude na url que faz a conexão com o mysql"
+                                    + ", não esquece de buildar a imagem novamente para atualiza-lá\n");
+                            
                             stm.execute(sql.insertDados());
                             
                             DdDado dado = new DdDado();
