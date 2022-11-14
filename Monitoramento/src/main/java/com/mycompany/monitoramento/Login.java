@@ -104,6 +104,7 @@ public class Login {
                     System.out.println("\nPreencha todos os campos!");
                 } else {
                     System.out.println("\n| Ocorreu algum erro por aqui! |\n");
+                    e.printStackTrace();
                 }
             }
         }
