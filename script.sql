@@ -1,4 +1,3 @@
-CREATE DATABASE nocrash;
 USE nocrash;
 
 CREATE TABLE Hardware (
