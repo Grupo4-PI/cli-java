@@ -34,21 +34,21 @@ public class Login {
 
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                try (Connection con = DriverManager.getConnection(
+                try ( Connection con = DriverManager.getConnection(
                         "jdbc:sqlserver://nocrash.database.windows.net:1433;database=nocrash;"
-                                + "encrypt=true;trustServerCertificate=false", "nocrash", "#Gfgrupo4")) {
+                        + "encrypt=true;trustServerCertificate=false", "nocrash", "#Gfgrupo4")) {
                     Statement stm = con.createStatement();
                     ResultSet rs = stm.executeQuery(sql.selectEmailSenha(email, senha));
-                    
+
                     if (rs.next()) {
                         System.out.println("\n| Bem vindo ao NoCrash |");
                         System.out.println("\nDigite o token da sua desktop: ");
                         String token = scanner.next();
                         ResultSet rsToken = stm.executeQuery(sql.selectDesktop(token));
-                        
+
                         if (rsToken.next()) {
                             ResultSet verificarHardware = stm.executeQuery(sql.selectHardware(token));
-                            
+
                             if (!verificarHardware.next()) {
                                 stm.execute(sql.insertHardware(token));
                             } else {
@@ -57,11 +57,11 @@ public class Login {
                             System.out.println("\nTudo certo! vamos capturar os dados da sua desktop agora...\n\n");
                             System.out.println("OBS: vai voltar para o começo porque a inserção dos dados ainda"
                                     + " não está automatizada, mas os selects/inserts estão indo\n");
-                            
+
                             stm.execute(sql.insertDados());
-                            
+
                             DdDado dado = new DdDado();
-                            
+
                             try {
                                 for (int i = 0; i < dado.getQtdDisco(); i++) {
                                     stm.execute(sql.insertDisco(i));
@@ -71,22 +71,35 @@ public class Login {
                                     stm.execute(sql.updateDisco(i));
                                 }
                             }
-                            
+
                             try {
                                 DatabaseMySql db = new DatabaseMySql();
                                 try {
                                     db.insertHardware(token);
                                 } catch (Exception ex) {
-                                    db.updateHardware(token);
+                                    try {
+                                        db.updateHardware(token);
+                                    } catch (Exception e) {
+                                    }
                                 }
-                                db.inserirDados();
+                                try {
+                                    db.inserirDados();
+                                } catch (Exception e) {
+                                    System.out.println("\n| Erro ao Inserir os dados no bd mysql |"
+                                            + "- Verifique a conexão\n");
+                                }
                                 try {
                                     for (int i = 0; i < dado.getQtdDisco(); i++) {
                                         db.inserirDisco(i);
                                     }
                                 } catch (Exception ex) {
-                                    for (int i = 0; i < dado.getQtdDisco(); i++) {
-                                        db.updateDisco(i);
+                                    try {
+                                        for (int i = 0; i < dado.getQtdDisco(); i++) {
+                                            db.updateDisco(i);
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println("\n| Erro ao Inserir os dados do disco no bd mysql "
+                                                + "- Verifique a conexão |\n");
                                     }
                                 }
                             } catch (SQLException e) {
