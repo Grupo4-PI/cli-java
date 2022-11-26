@@ -1,6 +1,10 @@
+com\mycompany\monitoramento\DiscoTaskMySql.class
 com\mycompany\monitoramento\Login.class
 com\mycompany\monitoramento\DatabaseMySql.class
 com\mycompany\monitoramento\DbHardware.class
+com\mycompany\monitoramento\DadoTaskMySql.class
+com\mycompany\monitoramento\DiscoTask.class
+com\mycompany\monitoramento\DadoTask.class
 com\mycompany\monitoramento\DdDado.class
 com\mycompany\monitoramento\SqlCommands.class
 com\mycompany\monitoramento\DbDisco.class
