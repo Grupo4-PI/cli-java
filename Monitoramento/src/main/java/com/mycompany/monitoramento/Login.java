@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class Login {
 
@@ -58,19 +59,12 @@ public class Login {
                             System.out.println("OBS: vai voltar para o começo porque a inserção dos dados ainda"
                                     + " não está automatizada, mas os selects/inserts estão indo\n");
 
-                            stm.execute(sql.insertDados());
+                            
+
+                           
 
                             DdDado dado = new DdDado();
 
-                            try {
-                                for (int i = 0; i < dado.getQtdDisco(); i++) {
-                                    stm.execute(sql.insertDisco(i));
-                                }
-                            } catch (SQLException ex) {
-                                for (int i = 0; i < dado.getQtdDisco(); i++) {
-                                    stm.execute(sql.updateDisco(i));
-                                }
-                            }
 
                             try {
                                 DatabaseMySql db = new DatabaseMySql();
@@ -83,15 +77,21 @@ public class Login {
                                     }
                                 }
                                 try {
-                                    db.inserirDados();
+                                     
+
+                           Timer timer = new Timer("Insert Dados");
+                            timer.schedule(new DadoTask(), 1_000, 20_000);
+                            timer.schedule(new DadoTaskMySql(), 1_000, 20_000);
+                            
+                                     
                                 } catch (Exception e) {
                                     System.out.println("\n| Erro ao Inserir os dados no bd mysql |"
                                             + "- Verifique a conexão\n");
                                 }
                                 try {
-                                    for (int i = 0; i < dado.getQtdDisco(); i++) {
-                                        db.inserirDisco(i);
-                                    }
+                                    Timer timer = new Timer("Insert Disco");
+                                    timer.schedule(new DiscoTask(), 1_000, 20_000);
+                                    timer.schedule(new DiscoTaskMySql(), 1_000, 20_000);
                                 } catch (Exception ex) {
                                     try {
                                         for (int i = 0; i < dado.getQtdDisco(); i++) {
