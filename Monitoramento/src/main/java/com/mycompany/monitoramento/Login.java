@@ -63,7 +63,7 @@ public class Login {
 
                            
 
-                            DdDado dado = new DdDado();
+                           
 
 
                             try {
@@ -90,17 +90,14 @@ public class Login {
                                 }
                                 try {
                                     Timer timer = new Timer("Insert Disco");
-                                    timer.schedule(new DiscoTask(), 1_000, 20_000);
                                     timer.schedule(new DiscoTaskMySql(), 1_000, 20_000);
+                                    timer.schedule(new DiscoTask(), 1_000, 20_000);
+                                    
                                 } catch (Exception ex) {
-                                    try {
-                                        for (int i = 0; i < dado.getQtdDisco(); i++) {
-                                            db.updateDisco(i);
-                                        }
-                                    } catch (Exception e) {
+                                    
                                         System.out.println("\n| Erro ao Inserir os dados do disco no bd mysql "
                                                 + "- Verifique a conexão |\n");
-                                    }
+                                    
                                 }
                             } catch (SQLException e) {
                                 System.out.println("\n| Erro ao conectar com o MySql |\n");
