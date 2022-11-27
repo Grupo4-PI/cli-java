@@ -21,32 +21,38 @@ public class DiscoTaskMySql extends TimerTask{
     private Looca looca;
     private SqlCommands comandos;
     
+    
+    
      public DiscoTaskMySql() {
         this.comandos = new SqlCommands();
         this.looca = new Looca();
     }
     @Override
     public void run() {
-        Integer quantidadeDeDiscos = looca.getGrupoDeDiscos().getQuantidadeDeDiscos();
+        DdDado mdado = new DdDado();
+    
 
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://nocrash.database.windows.net:1433;database=NoCrash;encrypt=true;trustServerCertificate=false", "nocrash", "#Gfgrupo4");
-            Statement stm = con.createStatement();
+            
+         DatabaseMySql db = new DatabaseMySql();
 
-            try {
-                for (int i = 0; i < quantidadeDeDiscos; i++) {
-                    stm.execute(comandos.insertDisco(i));
-                    System.out.println("insert local");
-                }
-            } catch (SQLException ex) {
-                for (int i = 0; i < quantidadeDeDiscos; i++) {
-                    stm.execute(comandos.updateDisco(i));
-                    System.out.println("update local");
-                }
+           try {
+                    for (int i = 0; i < mdado.getQtdDisco(); i++) {
+                        db.inserirDisco(i);
+                        System.out.println("Insert disco local");
+                    }
+                } catch (Exception ex) {
+                    try {
+                        for (int i = 0; i < mdado.getQtdDisco(); i++) {
+                            
+                            db.updateDisco(i);
+                            System.out.println("update local");
+                        }
+                    } catch (Exception e) {
+                    }
             }
 
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(DadoTask.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
