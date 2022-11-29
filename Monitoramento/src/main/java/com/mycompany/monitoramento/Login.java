@@ -56,16 +56,7 @@ public class Login {
                                 stm.execute(sql.updateHardware(token));
                             }
                             System.out.println("\nTudo certo! vamos capturar os dados da sua desktop agora...\n\n");
-                            System.out.println("OBS: vai voltar para o começo porque a inserção dos dados ainda"
-                                    + " não está automatizada, mas os selects/inserts estão indo\n");
-
                             
-
-                           
-
-                           
-
-
                             try {
                                 DatabaseMySql db = new DatabaseMySql();
                                 try {
