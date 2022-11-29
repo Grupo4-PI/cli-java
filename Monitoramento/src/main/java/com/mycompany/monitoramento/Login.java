@@ -90,8 +90,8 @@ public class Login {
                                 }
                                 try {
                                     Timer timer = new Timer("Insert Disco");
-                                    timer.schedule(new DiscoTaskMySql(), 1_000, 20_000);
-                                    timer.schedule(new DiscoTask(), 1_000, 20_000);
+                                    timer.schedule(new DiscoTaskMySql(), 1_000, 10_000);
+                                    timer.schedule(new DiscoTask(), 1_000, 10_000);
                                     
                                 } catch (Exception ex) {
                                     
