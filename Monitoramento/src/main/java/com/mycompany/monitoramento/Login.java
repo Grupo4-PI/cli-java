@@ -80,7 +80,7 @@ public class Login {
                                      
 
                            Timer timer = new Timer("Insert Dados");
-                            timer.schedule(new DadoTask(), 1_000, 10_000);
+                            timer.schedule(new DadoTask(), 1_000, 9_000);
                             timer.schedule(new DadoTaskMySql(), 1_000, 10_000);
                             
                                      
