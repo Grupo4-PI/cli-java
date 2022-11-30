@@ -38,13 +38,13 @@ public class DatabaseMySql {
          jdbcTemplate.update(sql.updateHardware(token));
     }
 
-    public void inserirDados() {
-         jdbcTemplate.update(sql.insertDados());
+    public void inserirDados(String token) {
+         jdbcTemplate.update(sql.insertDados(token));
     }
-    public void inserirDisco(Integer indice) {
-         jdbcTemplate.update(sql.insertDisco(indice));
+    public void inserirDisco(Integer indice, String token) {
+         jdbcTemplate.update(sql.insertDisco(indice, token));
     }
-    public void updateDisco(Integer indice) {
-         jdbcTemplate.update(sql.updateDisco(indice));
+    public void updateDisco(Integer indice, String token) {
+         jdbcTemplate.update(sql.updateDisco(indice, token));
     }
 }

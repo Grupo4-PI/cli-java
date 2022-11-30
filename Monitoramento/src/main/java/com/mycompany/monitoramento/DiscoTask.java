@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.monitoramento;
 
 import com.github.britooo.looca.api.core.Looca;
@@ -17,10 +13,12 @@ public class DiscoTask extends TimerTask {
 
     private SqlCommands comandos;
     private Looca looca;
+    private String token;
 
-    public DiscoTask() {
+    public DiscoTask(String token) {
         this.comandos = new SqlCommands();
         this.looca = new Looca();
+        this.token = token;
     }
 
     @Override
@@ -36,12 +34,12 @@ public class DiscoTask extends TimerTask {
 
             try {
                 for (int i = 0; i < quantidadeDeDiscos; i++) {
-                    stm.execute(comandos.insertDisco(i));
+                    stm.execute(comandos.insertDisco(i, token));
                     System.out.println("insert azure");
                 }
             } catch (SQLException ex) {
                 for (int i = 0; i < quantidadeDeDiscos; i++) {
-                    stm.execute(comandos.updateDisco(i));
+                    stm.execute(comandos.updateDisco(i, token));
                     System.out.println("update azure");
                 }
             }

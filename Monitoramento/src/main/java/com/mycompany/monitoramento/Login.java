@@ -56,7 +56,7 @@ public class Login {
                                 stm.execute(sql.updateHardware(token));
                             }
                             System.out.println("\nTudo certo! vamos capturar os dados da sua desktop agora...\n\n");
-                            
+
                             try {
                                 DatabaseMySql db = new DatabaseMySql();
                                 try {
@@ -68,27 +68,24 @@ public class Login {
                                     }
                                 }
                                 try {
-                                     
+                                    Timer timer = new Timer("Insert Dados");
+                                    timer.schedule(new DadoTask(token), 1_000, 9_000);
+                                    timer.schedule(new DadoTaskMySql(token), 1_000, 10_000);
 
-                           Timer timer = new Timer("Insert Dados");
-                            timer.schedule(new DadoTask(), 1_000, 9_000);
-                            timer.schedule(new DadoTaskMySql(), 1_000, 10_000);
-                            
-                                     
                                 } catch (Exception e) {
                                     System.out.println("\n| Erro ao Inserir os dados no bd mysql |"
                                             + "- Verifique a conexão\n");
                                 }
                                 try {
                                     Timer timer = new Timer("Insert Disco");
-                                    timer.schedule(new DiscoTaskMySql(), 1_000, 10_000);
-                                    timer.schedule(new DiscoTask(), 1_000, 10_000);
-                                    
+                                    timer.schedule(new DiscoTaskMySql(token), 1_000, 10_000);
+                                    timer.schedule(new DiscoTask(token), 1_000, 10_000);
+
                                 } catch (Exception ex) {
-                                    
-                                        System.out.println("\n| Erro ao Inserir os dados do disco no bd mysql "
-                                                + "- Verifique a conexão |\n");
-                                    
+
+                                    System.out.println("\n| Erro ao Inserir os dados do disco no bd mysql "
+                                            + "- Verifique a conexão |\n");
+
                                 }
                             } catch (SQLException e) {
                                 System.out.println("\n| Erro ao conectar com o MySql |\n");

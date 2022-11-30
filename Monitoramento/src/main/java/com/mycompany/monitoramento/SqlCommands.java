@@ -10,9 +10,15 @@ public class SqlCommands {
     Looca looca = new Looca();
 
     public String insertHardware(String token) {
-        return "INSERT INTO Hardware(idHardware ,nomeProcessador, "
+        System.out.println("INSERT INTO Hardware(nomeProcessador, "
                 + "fabricante, frequencia, memoriaTotal, qntDisco, fkDesktop)  VALUES ('"
-                + database.getIdMaquina() + "','" + database.getNomeProcessador() + "','"
+                + database.getNomeProcessador() + "','"
+                + database.getFabricante() + "','" + database.getFrequencia() + "','"
+                + database.getMemoriaTotal() + "','" + database.getQntDisco() + "','" + " " + token + "');");
+        
+        return "INSERT INTO Hardware(nomeProcessador, "
+                + "fabricante, frequencia, memoriaTotal, qntDisco, fkDesktop)  VALUES ('"
+                + database.getNomeProcessador() + "','"
                 + database.getFabricante() + "','" + database.getFrequencia() + "','"
                 + database.getMemoriaTotal() + "','" + database.getQntDisco() + "','" + " " + token + "');";
     }
@@ -26,6 +32,8 @@ public class SqlCommands {
         sb.append(", memoriaTotal = ").append(database.getMemoriaTotal());
         sb.append(", qntDisco = ").append(database.getQntDisco());
         sb.append(" WHERE fkDesktop = ' ").append(token).append("';");
+        
+        System.out.println(sb.toString());
 
         return sb.toString();
     }
@@ -37,11 +45,11 @@ public class SqlCommands {
         return sb.toString();
     }
 
-    public String insertDisco(Integer indice) {
+    public String insertDisco(Integer indice, String token) {
         StringBuilder sb = new StringBuilder();
         Disco disco = looca.getGrupoDeDiscos().getDiscos().get(indice);
         sb.append("INSERT INTO Disco (modelo, serial,bytesEscrita, bytesLeitura,escritas,leituras,");
-        sb.append("tamanho, tamanhoAtualFila, tempoTransferencia,  fkHardware) VALUES ('");
+        sb.append("tamanho, tamanhoAtualFila, tempoTransferencia,  fkDesktop) VALUES ('");
         sb.append(disco.getModelo()).append("','").append(disco.getSerial()).append("',");
         sb.append(disco.getBytesDeEscritas() / 1024 / 1024 / 1024).append(",");
         sb.append(disco.getBytesDeLeitura() / 1024 / 1024 / 1024).append(",");
@@ -49,12 +57,13 @@ public class SqlCommands {
         sb.append(disco.getLeituras() / 1024 / 1024 / 1024).append(",");
         sb.append(disco.getTamanho() / 1000000000).append(",");
         sb.append(disco.getTamanhoAtualDaFila()).append(",");
-        sb.append(disco.getTempoDeTransferencia() / 1024).append(",'").append(mdado.getIdMaquina()).append("');");
-
+        sb.append(disco.getTempoDeTransferencia() / 1024).append(",' ").append(token).append("');");
+        
+        System.out.println(sb.toString());
         return sb.toString();
     }
 
-    public String updateDisco(Integer indice) {
+    public String updateDisco(Integer indice, String token) {
         StringBuilder sb = new StringBuilder();
         Disco disco = looca.getGrupoDeDiscos().getDiscos().get(indice);
         sb.append("UPDATE Disco SET modelo = '").append(disco.getModelo()).append("',");
@@ -65,8 +74,10 @@ public class SqlCommands {
         sb.append("tamanho =").append(disco.getTamanho() / 1000000000).append(",");
         sb.append("tamanhoAtualFila =").append(disco.getTamanhoAtualDaFila()).append(",");
         sb.append("tempoTransferencia =").append(disco.getTempoDeTransferencia() / 1024);
-        sb.append(" WHERE serial = '").append(disco.getSerial()).append("';");
+        sb.append(" WHERE fkDesktop = ' ").append(token).append("';");
 
+        System.out.println("update disco" + sb.toString());
+        
         return sb.toString();
     }
 
@@ -82,8 +93,10 @@ public class SqlCommands {
         return "SELECT nomeUsuario WHERE emailUsuario='" + email + "' and senha ='" + senha + "';";
     }
 
-    public String insertDados() {
-        return "INSERT INTO Dado (memoriaDisponivel , usoProcessador, fkHardware) "
-                + "VALUES ('" + mdado.getEmUso() + "','" + mdado.getUsop() + "','" + mdado.getIdMaquina() + "');";
+    public String insertDados(String token) {
+        System.out.println("insert dado" +  "INSERT INTO Dado (memoriaDisponivel , usoProcessador, fkDesktop) "
+                + "VALUES ('" + mdado.getEmUso() + "','" + mdado.getUsop() + "',' " + token + "');");
+        return "INSERT INTO Dado (memoriaDisponivel , usoProcessador, fkDesktop) "
+                + "VALUES ('" + mdado.getEmUso() + "','" + mdado.getUsop() + "','" + " ' "+ token + "');";
     }
 }

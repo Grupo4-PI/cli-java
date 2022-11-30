@@ -17,10 +17,11 @@ import java.util.logging.Logger;
 public class DadoTask extends TimerTask {
 
     private SqlCommands comandos;
+    private String token = "";
 
-    public DadoTask() {
+    public DadoTask(String token) {
         this.comandos = new SqlCommands();
-
+        this.token = token;
     }
 
     @Override
@@ -31,9 +32,9 @@ public class DadoTask extends TimerTask {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             Connection con = DriverManager.getConnection("jdbc:sqlserver://nocrash.database.windows.net:1433;database=NoCrash;encrypt=true;trustServerCertificate=false", "nocrash", "#Gfgrupo4");
             Statement stm = con.createStatement();
-
-            stm.execute("INSERT INTO Dado (memoriaDisponivel , usoProcessador, fkHardware) "
-                + "VALUES ('" + mdado.getEmUso() + "','" + mdado.getUsop() + "','" + mdado.getIdMaquina() + "');");
+            
+            stm.execute("INSERT INTO Dado (memoriaDisponivel , usoProcessador, fkDesktop) "
+                + "VALUES ('" + mdado.getEmUso() + "','" + mdado.getUsop() + "','" + " "+token + "');");
 
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DadoTask.class.getName()).log(Level.SEVERE, null, ex);
