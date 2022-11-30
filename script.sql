@@ -2,7 +2,7 @@ CREATE DATABASE nocrash;
 USE nocrash;
 
 CREATE TABLE Hardware (
-idHardware VARCHAR(20) PRIMARY KEY,
+idHardware INT AUTO_INCREMENT PRIMARY KEY,
 nomeProcessador VARCHAR(80), 
 fabricante VARCHAR(80),
 frequencia VARCHAR(80),
