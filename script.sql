@@ -22,7 +22,7 @@ fkDesktop CHAR(8) UNIQUE
 CREATE TABLE Disco (
 idDisco INT AUTO_INCREMENT PRIMARY KEY,
 modelo VARCHAR(80),
-serial VARCHAR(90) UNIQUE,
+serial VARCHAR(90),
 bytesEscrita INT,
 bytesLeitura INT,
 escritas INT,
