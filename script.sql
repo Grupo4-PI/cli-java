@@ -2,13 +2,13 @@ CREATE DATABASE nocrash;
 USE nocrash;
 
 CREATE TABLE Hardware (
-idHardware VARCHAR(20) PRIMARY KEY,
+idHardware INT AUTO_INCREMENT PRIMARY KEY,
 nomeProcessador VARCHAR(80), 
 fabricante VARCHAR(80),
 frequencia VARCHAR(80),
 memoriaTotal DECIMAL,
 qntDisco INT,
-fkDesktop CHAR(8) UNIQUE
+fkDesktop CHAR(8)
 );
 
 CREATE TABLE Dado (
@@ -16,7 +16,7 @@ idDado INT AUTO_INCREMENT PRIMARY KEY,
 memoriaDisponivel DECIMAL,
 usoProcessador DECIMAL,
 columnData TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-fkDesktop CHAR(8) UNIQUE
+fkDesktop CHAR(8)
 );
 
 CREATE TABLE Disco (
@@ -31,5 +31,5 @@ tamanho INT,
 tamanhoAtualFila INT,
 tempoTransferencia INT,
 columnData TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-fkDesktop CHAR(8) UNIQUE
+fkDesktop CHAR(8)
 );
