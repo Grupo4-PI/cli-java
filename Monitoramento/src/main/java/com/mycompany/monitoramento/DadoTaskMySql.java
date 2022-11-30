@@ -24,6 +24,7 @@ public class DadoTaskMySql extends TimerTask {
             } catch (Exception e) {
                 System.out.println("\n| Erro ao Inserir os dados no bd mysql |"
                         + "- Verifique a conexão\n");
+                e.printStackTrace();
             }
         } catch (SQLException ex) {
             Logger.getLogger(DadoTaskMySql.class.getName()).log(Level.SEVERE, null, ex);

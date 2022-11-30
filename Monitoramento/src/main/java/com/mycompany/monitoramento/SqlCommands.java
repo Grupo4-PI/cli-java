@@ -94,10 +94,10 @@ public class SqlCommands {
     }
 
     public String insertDados(String token) {
-        System.out.println("INSERT INTO Dado (memoriaDisponivel , usoProcessador, fkDesktop) "
-                + "VALUES ('" + mdado.getEmUso() + "','" + mdado.getUsop() + "'," + " ' "+ token + "');");
+        System.out.println( "INSERT INTO Dado (memoriaDisponivel , usoProcessador, fkDesktop) "
+                + "VALUES ('" + mdado.getEmUso() + "','" + mdado.getUsop() + "',' " + token + "');");
         
         return "INSERT INTO Dado (memoriaDisponivel , usoProcessador, fkDesktop) "
-                + "VALUES ('" + mdado.getEmUso() + "','" + mdado.getUsop() + "'," + " ' "+ token + "');";
+                + "VALUES ('" + mdado.getEmUso() + "','" + mdado.getUsop() + "',' " + token + "');";
     }
 }
